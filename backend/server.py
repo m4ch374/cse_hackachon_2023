@@ -36,10 +36,13 @@ def register_user():
     email = data['email']
     password = data['password']
     new_user = User(data_store.get_new_user_id(), username, email, password)
-    # data_base = data_store.get()
-    user_id = data_store.register_user(new_user)
-    tok = jwt.encode(user_id, "deezNuts", "HS256")
-    return dumps(tok)
+    payload = {
+        "uId": data_store.register_user(new_user)
+    }
+    tok = jwt.encode(payload, "deezNuts", "HS256")
+    return dumps({
+        "token": tok
+    })
 #   return "Hello, world!"
 
 
