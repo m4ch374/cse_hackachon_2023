@@ -57,6 +57,12 @@ class Datastore:
     #         raise TypeError('store must be of type dictionary')
     #     self.__store = store
 
+    def _sessions_to_dict(self) -> list:
+        return [session._get_as_dict() for session in self.__store['sessions'] ]
+    
+    def _users_to_dict(self) -> list:
+        return [user._get_as_dict() for user in self.__store['users'] ]
+
     def get_user(self, id: int) -> User:
         for user in self.__store['users']:
             if user.id == id:
@@ -95,8 +101,8 @@ class Datastore:
                 return user._get_user_id()
         return -1
     
-    def get_all_sessions(self) -> list:
-        return [sesh for sesh in self.__store['sessions']]
+    # def get_all_sessions(self) -> list:
+    #     return [sesh for sesh in self.__store['sessions']]
 
     def add_guest_to_session(self, guest_id: int, session_id: int):
         for sesh in self.__store['sessions']:

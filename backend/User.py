@@ -16,5 +16,12 @@ class User:
     def _get_user_email(self) -> str:
         return self.email
     
+    def _get_as_dict(self) -> dict:
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email
+        }
+    
     def _check_email_pass_combo(self, email: str, password: str) -> bool:
         return self.email == email and self.password == password
