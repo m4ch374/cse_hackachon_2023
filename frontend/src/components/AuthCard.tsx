@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import Lock from "../assets/icons/Lock";
 import Fetcher from "../utils/fetcher";
 import { LOGIN_ROUTE, REGISTER_ROUTE } from "../utils/endpoint";
+import { useNavigate } from "react-router-dom";
 
 const AuthCard: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true)
   const [errMsg, setErrMsg] = useState("")
+
+  const navigate = useNavigate()
 
   const formSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -37,7 +40,7 @@ const AuthCard: React.FC = () => {
         }
 
         localStorage.setItem("token", data.token)
-
+        navigate("/dashboard")
       })
   }
 
@@ -97,7 +100,7 @@ const AuthCard: React.FC = () => {
           />
         </div>
         <div>
-          <label className="font-bold">Passowrd:</label>
+          <label className="font-bold">Password:</label>
           <input 
             name="password"
             type="password"
