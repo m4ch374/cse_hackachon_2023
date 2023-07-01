@@ -127,6 +127,7 @@ def list_sessions():
     auth_header = request.headers.get('Authorization')
     auth_token = auth_header.split(" ")[1]
     user_id = jwt.decode(auth_token, "deezNuts", "HS256")
+    print(data_store.get_user(user_id['uId']))
     if data_store.get_user(user_id):
         # return all session info (list of dicts)
         all_sessions = data_store.get_all_sessions()
