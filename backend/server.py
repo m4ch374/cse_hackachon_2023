@@ -1,7 +1,11 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 from json import dumps
 import signal
+import jwt
+
+from data_store import data_store
+from User import User
 
 APP = Flask(__name__)
 CORS(APP)
@@ -25,12 +29,22 @@ APP.config['TRAP_HTTP_EXCEPTIONS'] = True
 APP.register_error_handler(Exception, defaultHandler)
 
 
-@APP.route("/", methods=['GET'])
-def helloWorld():
-  return "Hello, world!"
+@APP.route("/auth/register", methods=['POST'])
+def register_user():
+    data = request.get_json()
+    username = data['username']
+    email = data['email']
+    password = data['password']
+    new_user = User(data_store.get_new_user_id(), username, email, password)
+    # data_base = data_store.get()
+    user_id = data_store.register_user(new_user)
+    tok = jwt.encode(user_id, "deezNuts", "HS256")
+    return dumps(tok)
+#   return "Hello, world!"
 
 
 if __name__ == "__main__":
-    helloWorld()
+    # helloWorld()
     signal.signal(signal.SIGINT, quit_gracefully) # For coverage
     APP.run(port=8080, debug=False, threaded=True) # Do not edit this port
+
