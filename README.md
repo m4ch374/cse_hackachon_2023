@@ -65,4 +65,5 @@ These features are selected so that it is feasible for this project to be comple
 Simultaneously, we are working on the presentation slides and the script. For this we decided to go for a comedic approach to catch the audience's attention and differentiate ourselves from the rest. For example, we incorporated a plethora of **memes, funny images and blunt language** :joy:. Then we worked on the script based off of the slides and tried to shorten it to 30-40 seconds to give it enough time for demonstration.
 
 
-
+#### How to Run:
+Set up two terminals, in one `cd` into `/backend` and `/frontend` in the other. Run `python3 server.py` for the former and `npm install` and `npm run dev` for the latter.
