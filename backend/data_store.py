@@ -58,10 +58,10 @@ class Datastore:
     #     self.__store = store
 
     def _sessions_to_dict(self) -> list:
-        return [session._get_as_dict() for session in self.__store['sessions'] ]
+        return [session._get_as_dict() for session in self.__store['sessions']]
     
     def _users_to_dict(self) -> list:
-        return [user._get_as_dict() for user in self.__store['users'] ]
+        return [user._get_as_dict() for user in self.__store['users']]
 
     def get_user(self, id: int) -> User:
         for user in self.__store['users']:
@@ -113,6 +113,38 @@ class Datastore:
         for sesh in self.__store['sessions']:
             if sesh._get_session_id() == session_id:
                 sesh._add_guest(guest_id)
+    
+    #### PREFERENCE MATCHING ALGORITHM ####
+    # an algo, that takes uses the user's preferred tags, loops thru all
+    # sessions and matches the sessions that have the highest matching count
+    # from their pre-existing tags to the user's current tags
+    # E.g. User's tags are [beach, 3 guests, Italy], and one session's tags are
+    #       [beach, Italy] and another's is [3 guests, rainforest, Colombia] and
+    #       another's is [snow, Antarctica]. 
+    #       Then in order, we'd return [italy_sesh, colombia_sesh]. This is cause
+    #       italy_sesh has the highest tag-match-count with user's tags (3), 
+    #       followed by colombia_sesh which has 1 tag-match-count. But antarctica_sesh
+    #       has no matches so we don't include it at all. 
+    # NOTE: if users wants to remove the matchMe() effect, then simply refresh ?????
+    def sessions_tagged_to_dict(self, guest_id: int) -> list:
+        tagged_sessions_and_match_count = [] # list of tuples of (dict,int)
+        # get guest's preferred_tags
+        user_tags = self.get_user(guest_id).preferred_tags
+        # execute order-69 (the actual algo)
+        for sesh in self.__store['sessions']:
+            match_count = 0
+            for sesh_tag in sesh._get_tags():
+                if sesh_tag in user_tags:
+                    match_count += 1
+            if match_count > 0:
+                # append as a tuple, so u can sort based on 2nd value
+                tagged_sessions_and_match_count.append((sesh._get_as_dict(), match_count))
+        # Sort highest to lowest on match count                             # 1st index
+        sorted_tagged = sorted(tagged_sessions_and_match_count, key=lambda x: x[1], reverse=True)
+        # now extract only the dict from each tuple (already ordered)
+        return [session_and_count[0] for session_and_count in sorted_tagged]
+            
+
 
 
 print('Loading Datastore...')

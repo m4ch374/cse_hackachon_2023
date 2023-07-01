@@ -3,8 +3,6 @@ from flask_cors import CORS
 from json import dumps
 import signal
 import jwt
-import base64
-
 
 from data_store import data_store
 from User import User
@@ -134,6 +132,26 @@ def list_sessions():
         all_sessions = data_store._sessions_to_dict()
         payload = {
             "allSessions": all_sessions
+        }
+        return dumps(payload)
+    else:
+        return dumps({ })
+
+
+#############################################
+#         LIST TAG-PREFERRED SESSIONS       #
+#############################################
+@APP.route("/session_tagged", methods=['GET'])
+def list_sessions_tagged():
+    # check if user's id exists
+    auth_header = request.headers.get('Authorization')
+    auth_token = auth_header.split(" ")[1]
+    user_id = jwt.decode(auth_token, "deezNuts", "HS256")['uId']
+    if data_store.get_user(user_id):
+        # return all session info that contain user's tags (if any)
+        tagged_sessions = data_store.sessions_tagged_to_dict(user_id)
+        payload = {
+            "allSessions": tagged_sessions
         }
         return dumps(payload)
     else:

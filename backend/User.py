@@ -6,6 +6,7 @@ class User:
         self.username = username
         self.email = email
         self.password = password
+        self.preferred_tags = []
     
     def _get_user_id(self) -> int:
         return self.id
@@ -14,6 +15,9 @@ class User:
         return self.username
     
     def _get_user_email(self) -> str:
+        return self.email
+    
+    def _get_user_tags(self) -> list:
         return self.email
     
     def _get_as_dict(self) -> dict:
