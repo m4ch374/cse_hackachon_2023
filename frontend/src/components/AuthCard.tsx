@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Lock from "../assets/icons/Lock";
+import Fetcher from "../utils/fetcher";
+import { REGISTER_ROUTE } from "../utils/endpoint";
 
 const AuthCard: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true)
@@ -10,12 +12,20 @@ const AuthCard: React.FC = () => {
     const userName = e.currentTarget.username
     const email = e.currentTarget.email
     const password = e.currentTarget.password 
-    console.log(email.value)
-    console.log(password.value)
 
-    if (!isLogin) {
-      console.log(userName.value)
+    let payload = {
+      email: email.value,
+      password: password.value,
+      username: userName.value,
     }
+
+    Fetcher.post(REGISTER_ROUTE)
+      .withJsonPayload(payload)
+      .fetchResult()
+      .then(data => {
+        console.log(data)
+        localStorage.setItem("token", (data as any).token)
+      })
   }
 
   return (
