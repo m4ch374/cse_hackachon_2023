@@ -74,6 +74,12 @@ class Datastore:
     def get_new_session_id(self) -> int:
         return len(self.__store['sessions']) + 1
         
+    def _check_email_exists(self, email: str) -> bool:
+        for user in self.__store['users']:
+            if email == user._get_user_email():
+                return True
+        return False
+    
     def register_user(self, user: User) -> int:
         self.__store['users'].append(user)
         return user._get_user_id()
@@ -81,6 +87,12 @@ class Datastore:
     def register_session(self, session: Session) -> int:
         self.__store['sessions'].append(session)
         return session._get_session_id()
+    
+    def login_user(self, email: str, password: str) -> int:
+        for user in self.__store['users']:
+            if user._check_email_pass_combo(email, password) is True:
+                return user._get_user_id()
+        return -1
 
 
 print('Loading Datastore...')
