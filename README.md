@@ -3,7 +3,7 @@
 
 
 
-<p style="text-align: center;">Group 13 - Amith Kovoor, Henry Wan, Wyun, Jason Lim, Zihao Zhou</p>
+<p style="text-align: center;">Group 13 - Amith Kovoor, Henry Wan, Wyun Ng, Jason Lim, Zihao Zhou</p>
 
 ##  **1. The Beginning** :airplane:
 ### **1.1 Brainstorming ideas** :brain:
@@ -40,8 +40,7 @@ Due to the 24 hour time constraint, our group decided that beofore we start codi
 * **Log in/registration feature** :mailbox_closed:
 * **Email duplicate checking feature** :mag: 
 * **Ability to create travel session as a host** :dizzy:
-* **Ability to join travel session as a guest** :walking:
-* **Ability to automatically filter out sessions according to your selected tags** 
+* **Ability to join travel session as a guest** :walking:* 
 * **Ability to matach session with users** :ok_hand:
 * **Ability for guests to rate hosts** :star:
 
