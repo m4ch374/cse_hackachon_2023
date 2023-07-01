@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CheckMark from "../assets/icons/CheckMark";
 import Edit from "../assets/icons/Edit";
 import Datepicker from "react-tailwindcss-datepicker"; 
 import Fetcher from "../utils/fetcher";
 import { SESSION_ROUTE } from "../utils/endpoint";
+import { TravelSessionContext } from "./ProtectedRoutes";
 
 type TCreateSessionForm = {
   setPopup: Function
 }
 
 const CreateSessionForm: React.FC<TCreateSessionForm> = ({ setPopup }) => {
+  const addSession = (useContext(TravelSessionContext) as any)[1] // Epic code
+
   const [titleEdit, setTitleEdit] = useState(false)
   const [title, setTitle] = useState("New session")
 
@@ -28,12 +31,14 @@ const CreateSessionForm: React.FC<TCreateSessionForm> = ({ setPopup }) => {
     const maxGuest = parseInt(e.currentTarget.maxGuests.value)
     const country = e.currentTarget.country.value
     const city = e.currentTarget.city.value
+    const start = new Date(value.startDate).toISOString().substring(0, 10)
+    const end = new Date(value.endDate).toISOString().substring(0, 10)
 
     const payload = {
       title: title,
       max_guests: maxGuest,
-      start: new Date(value.startDate).toISOString().substring(0, 10),
-      end: new Date(value.endDate).toISOString().substring(0, 10),
+      start: start,
+      end: end,
       country: country,
       city: city,
       tags: [],
@@ -42,6 +47,21 @@ const CreateSessionForm: React.FC<TCreateSessionForm> = ({ setPopup }) => {
     Fetcher.post(SESSION_ROUTE).withLocalStorageToken()
       .withJsonPayload(payload)
       .fetchResult()
+      .then((data: any) => {
+        // Artificially add a session
+        addSession({
+          title: title,
+          city: city,
+          country: country,
+          start: start,
+          end: end,
+          id: data.res,
+          max_guests: maxGuest,
+          curr_guests: 0,
+          is_host: true,
+          joined: false
+        })
+      })
 
     setPopup(false)
   }

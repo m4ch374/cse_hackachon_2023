@@ -116,7 +116,7 @@ def create_session():
     data_store.register_session(new_session)
 
     return dumps({
-        "res": "ok"
+        "res": new_session.id
     })
 
 

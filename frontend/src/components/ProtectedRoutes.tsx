@@ -1,14 +1,32 @@
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 import Popup from "./Popup/Popup";
 import { AnimatePresence } from 'framer-motion'
 import CreateSessionForm from "./CreateSessionForm";
 
+const useTravelSession = () => {
+	const [session, setSessions]: any = useState([])
+
+	const addSession = (session_meta: any) => {
+		setSessions([session_meta, ...session])
+	}
+
+	const loadSession = (all: any) => {
+		setSessions(all)
+	}
+
+	return [session, addSession, loadSession]
+}
+
+const TravelSessionContext = createContext(null)
+
 const ProtectedRoutes: React.FC = () => {
   if (!localStorage.getItem("token")) {
     return <Navigate to={"/"} />
   }
+
+  const travelSession: any = useTravelSession()
 
   const navigate = useNavigate()
   const logout = () => {
@@ -19,7 +37,7 @@ const ProtectedRoutes: React.FC = () => {
   const [popClicked, setPopClicked] = useState(false)
 
   return (
-    <>
+    <TravelSessionContext.Provider value={travelSession}>
       <AnimatePresence initial={false}>
         {popClicked &&
           <Popup setPopped={setPopClicked}>
@@ -41,8 +59,9 @@ const ProtectedRoutes: React.FC = () => {
       <div className="mt-[100px]">
         <Outlet />
       </div>
-    </>
+    </TravelSessionContext.Provider>
   )
 }
 
 export default ProtectedRoutes
+export { TravelSessionContext }

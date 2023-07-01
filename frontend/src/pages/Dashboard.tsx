@@ -1,24 +1,11 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect } from "react"
 import Fetcher from "../utils/fetcher"
 import { SESSION_ROUTE } from "../utils/endpoint"
 import TravelSessionCard from "../components/TravelSessionCard"
-
-const useTravelSession = () => {
-	const [session, setSessions]: any = useState([])
-
-	const addSession = (session_meta: any) => {
-		setSessions([session_meta, ...session])
-	}
-
-	const loadSession = (all: any) => {
-		setSessions(all)
-	}
-
-	return [session, addSession, loadSession]
-}
+import { TravelSessionContext } from "../components/ProtectedRoutes"
 
 const Dashboard: React.FC = () => {
-	const [session, addSession, loadSession] = useTravelSession()
+	const [session, _, loadSession]: any = useContext(TravelSessionContext)
 
 	useEffect(() => {
 		Fetcher.get(SESSION_ROUTE).withLocalStorageToken()
