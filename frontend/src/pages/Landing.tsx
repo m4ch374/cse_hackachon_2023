@@ -3,11 +3,19 @@ import NavBar from "../components/NavBar";
 import BannerImage from "/anime_travel.jpg";
 import LandingBannerDivider from "../assets/divider/LandingBanerDivider";
 import { Link } from 'react-router-dom'
+import LoginIcon from "../assets/icons/LoginIcon";
 
 const Landing: React.FC = () => {
   return (
     <div className="">
-      <NavBar />
+      <NavBar>
+        <Link to={"/auth"}
+          className="flex gap-2 px-4 py-1 border rounded-full border-slate-300"
+        >
+          <LoginIcon />
+          <h3>Log In</h3>
+        </Link>
+      </NavBar>
       
       <div className="w-full mt-[100px] flex flex-col items-center">
         <div className="flex flex-col items-center text-xl font-thin">

@@ -21,6 +21,10 @@
     filter: drop-shadow(0 0 5em #461566);
   }
 
+  .custom-popup-drop-shadow {
+    filter: drop-shadow(0 0 3em #461566);
+  }
+
   .custom-shape-divider-bottom-1688215812 {
     position: relative;
     bottom: 0;

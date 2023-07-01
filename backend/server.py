@@ -6,6 +6,7 @@ import jwt
 
 from data_store import data_store
 from User import User
+from Session import Session
 
 APP = Flask(__name__)
 CORS(APP)
@@ -100,16 +101,21 @@ def create_session():
     country = data['country']
     city = data['city']
     # now create session
-    data_store.register_session(
-        data_store.get_new_session_id(),
-        host_id,
-        title,
-        max_guests,
-        start,
-        end,
-        country,
+    new_session = Session(
+        data_store.get_new_session_id(), 
+        host_id, 
+        title, 
+        max_guests, 
+        start, 
+        end, 
+        country, 
         city
     )
+    data_store.register_session(new_session)
+
+    return dumps({
+        "res": "ok"
+    })
 
 
 #############################################

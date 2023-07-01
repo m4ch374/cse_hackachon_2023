@@ -1,10 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom"
-import LoginIcon from "../assets/icons/LoginIcon";
 import OnlyGuest from "/OnlyGuests.png"
 
 type TNavBar = {
-  children?: JSX.Element | JSX.Element[]
+  children?: JSX.Element
 }
 
 const NavBar: React.FC<TNavBar> = ({ children }) => {
@@ -25,15 +23,9 @@ const NavBar: React.FC<TNavBar> = ({ children }) => {
     ">
       <div className="flex">
         <img src={OnlyGuest} className="h-[80px]" />
-        {children}
       </div>
 
-      <Link to={"/auth"}
-        className="flex gap-2 px-4 py-1 border rounded-full border-slate-300"
-      >
-        <LoginIcon />
-        <h3>Log In</h3>
-      </Link>
+      {children}
     </nav>
   )
 }

@@ -6,3 +6,5 @@ export const TEST_ROUTE = "/"
 export const LOGIN_ROUTE = "/auth/login"
 
 export const REGISTER_ROUTE = "/auth/register"
+
+export const SESSION_ROUTE = "/session"
