@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import Popup from "./Popup/Popup";
 import { AnimatePresence } from 'framer-motion'
 import CreateSessionForm from "./CreateSessionForm";
+import TransitionWrapper from "./TransitionWrapper";
 
 const useTravelSession = () => {
 	const [session, setSessions]: any = useState([])
@@ -46,19 +47,23 @@ const ProtectedRoutes: React.FC = () => {
         }
       </AnimatePresence>
 
-      <NavBar>
-        <div className="flex gap-4">
-          <button onClick={() => setPopClicked(true)} className="px-2 py-1 border rounded-md">
-            Create session
-          </button>
-          <button onClick={logout} className="py-1 px-4 border border-red-600 rounded-full text-red-500">
-            Logout
-          </button>
-        </div>
-      </NavBar>
-      <div className="mt-[100px]">
-        <Outlet />
-      </div>
+      <TransitionWrapper>
+        <>
+          <NavBar>
+            <div className="flex gap-4">
+              <button onClick={() => setPopClicked(true)} className="px-2 py-1 border rounded-md">
+                Create session
+              </button>
+              <button onClick={logout} className="py-1 px-4 border border-red-600 rounded-full text-red-500">
+                Logout
+              </button>
+            </div>
+          </NavBar>
+          <div className="mt-[100px]">
+            <Outlet />
+          </div>
+        </>
+      </TransitionWrapper>
     </TravelSessionContext.Provider>
   )
 }
