@@ -7,6 +7,7 @@ import Rocket from "../assets/icons/Rocket";
 import CheckMark from "../assets/icons/CheckMark";
 import Fetcher from "../utils/fetcher";
 import { ADD_ROUTE, REMOVE_ROUTE } from "../utils/endpoint";
+import Calandar from "../assets/icons/Calandar";
 
 type TTravelSessionCard = {
   session_meta: {
@@ -83,7 +84,7 @@ const TravelSessionCard: React.FC<TTravelSessionCard> = ({ session_meta }) => {
         }
       </AnimatePresence>
 
-      <div onClick={() => setPopClicked(true)} className="bg-[#3c3c3c] h-[80px] p-4 rounded-md flex items-center justify-between text-2xl">
+      <div onClick={() => setPopClicked(true)} className="bg-[#3c3c3c] p-4 rounded-md flex items-center justify-between text-2xl hover:bg-[#2f2f2f] transition-all duration-100">
         <div>
           <div className="flex gap-4 items-center">
             <Person />
@@ -92,6 +93,10 @@ const TravelSessionCard: React.FC<TTravelSessionCard> = ({ session_meta }) => {
           <div className="flex gap-2 text-sm items-center">
             <MapPin />
             <h3>{session_meta.city}, {session_meta.country}</h3>
+          </div>
+          <div className="flex gap-2 text-sm items-center">
+            <Calandar />
+            <h3>{session_meta.start}</h3>
           </div>
         </div>
 

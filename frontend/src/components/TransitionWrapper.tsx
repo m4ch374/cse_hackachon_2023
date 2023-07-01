@@ -6,14 +6,14 @@ const TransitionWrapper: React.FC<{ children: JSX.Element }> = ({ children }) =>
     out: {
       opacity: 0,
       transition: {
-        duration: 0.75,
+        duration: 0.25,
         delay: 0.2
       }
     },
     in: {
       opacity: 1,
       transition: {
-        duration: 0.75,
+        duration: 0.5,
         delay: 0.2
       }
     }

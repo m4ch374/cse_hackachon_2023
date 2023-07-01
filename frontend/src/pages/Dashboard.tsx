@@ -12,7 +12,6 @@ const Dashboard: React.FC = () => {
 			.fetchResult()
 			.then((data: any) => {
 				loadSession(data.allSessions)
-				console.log(data.allSessions)
 			})
 	}, [])
 
