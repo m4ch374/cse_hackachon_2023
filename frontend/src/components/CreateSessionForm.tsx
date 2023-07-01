@@ -5,7 +5,11 @@ import Datepicker from "react-tailwindcss-datepicker";
 import Fetcher from "../utils/fetcher";
 import { SESSION_ROUTE } from "../utils/endpoint";
 
-const CreateSessionForm: React.FC = () => {
+type TCreateSessionForm = {
+  setPopup: Function
+}
+
+const CreateSessionForm: React.FC<TCreateSessionForm> = ({ setPopup }) => {
   const [titleEdit, setTitleEdit] = useState(false)
   const [title, setTitle] = useState("New session")
 
@@ -38,6 +42,8 @@ const CreateSessionForm: React.FC = () => {
     Fetcher.post(SESSION_ROUTE).withLocalStorageToken()
       .withJsonPayload(payload)
       .fetchResult()
+
+    setPopup(false)
   }
 
   return (

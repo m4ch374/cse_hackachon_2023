@@ -23,7 +23,7 @@ const ProtectedRoutes: React.FC = () => {
       <AnimatePresence initial={false}>
         {popClicked &&
           <Popup setPopped={setPopClicked}>
-            <CreateSessionForm />
+            <CreateSessionForm setPopup={setPopClicked} />
           </Popup> 
         }
       </AnimatePresence>

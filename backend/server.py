@@ -127,16 +127,13 @@ def list_sessions():
     auth_header = request.headers.get('Authorization')
     auth_token = auth_header.split(" ")[1]
     user_id = jwt.decode(auth_token, "deezNuts", "HS256")
-    if data_store.get_user(user_id) is not None:
+    if data_store.get_user(user_id):
         # return all session info (list of dicts)
         all_sessions = data_store.get_all_sessions()
         payload = {
             "allSessions": all_sessions
         }
-        tok = jwt.encode(payload, "deezNuts", "HS256")
-        return dumps({
-            "token": tok
-        })
+        return dumps(payload)
     else:
         return dumps({ })
 
