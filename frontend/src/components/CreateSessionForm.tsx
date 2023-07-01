@@ -32,8 +32,8 @@ const CreateSessionForm: React.FC<TCreateSessionForm> = ({ setPopup }) => {
     const payload = {
       title: title,
       max_guests: maxGuest,
-      start: value.startDate.toString(),
-      end: value.endDate.toString(),
+      start: new Date(value.startDate).toISOString().substring(0, 10),
+      end: new Date(value.endDate).toISOString().substring(0, 10),
       country: country,
       city: city,
       tags: [],

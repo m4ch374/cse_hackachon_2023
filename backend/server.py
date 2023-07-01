@@ -131,7 +131,7 @@ def list_sessions():
     user_id = jwt.decode(auth_token, "deezNuts", "HS256")['uId']
     if data_store.get_user(user_id):
         # return all session info (list of dicts)
-        all_sessions = data_store._sessions_to_dict()
+        all_sessions = data_store._sessions_to_dict(user_id)
         payload = {
             "allSessions": all_sessions
         }
@@ -154,6 +154,10 @@ def add_guest():
     sesh_id = data['session_id']
     data_store.add_guest_to_session(guest_id, sesh_id)
 
+    return dumps({
+        "res": "ok"
+    })
+
 
 #############################################
 #        REMOVE GUEST FROM A SESSION        #
@@ -168,6 +172,10 @@ def remove_guest():
     data = request.get_json()
     sesh_id = data['session_id']
     data_store.remove_guest_from_session(guest_id, sesh_id)
+
+    return dumps({
+        "res": "ok"
+    })
 
 
 # @APP.route("/user/match_me", methods=['POST'])
