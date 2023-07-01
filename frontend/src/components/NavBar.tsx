@@ -10,16 +10,18 @@ type TNavBar = {
 const NavBar: React.FC<TNavBar> = ({ children }) => {
   return (
     <nav className="
-      absolute 
+      fixed 
       top-0 
       left-0 
       h-[90px] 
-      bg-[#3f3f3f] 
+      bg-[#242424]/30 
       w-screen
       flex
       items-center
       px-7
       justify-between
+      z-50
+      backdrop-blur-md
     ">
       <div className="flex">
         <img src={OnlyGuest} className="h-[80px]" />

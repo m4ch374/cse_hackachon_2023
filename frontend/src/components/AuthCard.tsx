@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Lock from "../assets/icons/Lock";
 import Fetcher from "../utils/fetcher";
-import { REGISTER_ROUTE } from "../utils/endpoint";
+import { LOGIN_ROUTE, REGISTER_ROUTE } from "../utils/endpoint";
 
 const AuthCard: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true)
+  const [errMsg, setErrMsg] = useState("")
 
   const formSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -13,18 +14,30 @@ const AuthCard: React.FC = () => {
     const email = e.currentTarget.email
     const password = e.currentTarget.password 
 
-    let payload = {
+    // Defeats the purpose of Typescript lol
+    let payload: any = {
       email: email.value,
       password: password.value,
-      username: userName.value,
     }
 
-    Fetcher.post(REGISTER_ROUTE)
+    if (!isLogin) {
+      payload = {
+        ...payload,
+        username: userName.value
+      }
+    }
+
+    Fetcher.post(isLogin ? LOGIN_ROUTE : REGISTER_ROUTE)
       .withJsonPayload(payload)
       .fetchResult()
-      .then(data => {
-        console.log(data)
-        localStorage.setItem("token", (data as any).token)
+      .then((data: any) => {
+        if (data.error) {
+          setErrMsg(data.error)
+          return
+        }
+
+        localStorage.setItem("token", data.token)
+
       })
   }
 
@@ -37,7 +50,8 @@ const AuthCard: React.FC = () => {
       flex
       flex-col
       items-center
-      p-8"
+      p-8
+      custom-drop-shadow"
     >
       <Lock />  
       <h1 className="m-2 text-3xl font-medium">{isLogin ? "Login" : "Register"}</h1>
@@ -100,6 +114,10 @@ const AuthCard: React.FC = () => {
               focus:shadow-outline" 
           />
         </div>
+
+        {errMsg !== "" &&
+          <h3 className="text-red-500 font-semibold">{errMsg}</h3>
+        }
 
         <button type="button" 
           className="underline text-blue-700 justify-self-start"
