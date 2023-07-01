@@ -34,18 +34,20 @@ class Session:
     # def _get_tags(self) -> list:
     #     return self.tags
     
-    def _get_as_dict(self) -> dict:
+    def _get_as_dict(self, uId) -> dict:
         return {
             'id': self.id,
             'host_id': self.host_id,
             'title': self.title,
             'max_guests': self.max_guests,
-            'guest_ids': self.guest_ids,
+            'curr_guests': len(self.guest_ids),
             'start': self.start,
             'end': self.end,
             # 'tags': self.tags,
             'country': self.country,
             'city': self.city,
+            'is_host': self.host_id == uId,
+            'joined': uId in self.guest_ids
         }
 
     def _add_guest(self, guest_id: int):

@@ -57,8 +57,8 @@ class Datastore:
     #         raise TypeError('store must be of type dictionary')
     #     self.__store = store
 
-    def _sessions_to_dict(self) -> list:
-        return [session._get_as_dict() for session in self.__store['sessions']]
+    def _sessions_to_dict(self, uId) -> list:
+        return [session._get_as_dict(uId) for session in self.__store['sessions'] ]
     
     def _users_to_dict(self) -> list:
         return [user._get_as_dict() for user in self.__store['users']]
@@ -112,7 +112,7 @@ class Datastore:
     def remove_guest_from_session(self, guest_id: int, session_id: int):
         for sesh in self.__store['sessions']:
             if sesh._get_session_id() == session_id:
-                sesh._add_guest(guest_id)
+                sesh._remove_guest(guest_id)
     
     #### PREFERENCE MATCHING ALGORITHM ####
     # an algo, that takes uses the user's preferred tags, loops thru all
@@ -138,12 +138,12 @@ class Datastore:
                     match_count += 1
             if match_count > 0:
                 # append as a tuple, so u can sort based on 2nd value
-                tagged_sessions_and_match_count.append((sesh._get_as_dict(), match_count))
+                tagged_sessions_and_match_count.append((sesh._get_as_dict(guest_id), match_count))
         # Sort highest to lowest on match count                             # 1st index
         sorted_tagged = sorted(tagged_sessions_and_match_count, key=lambda x: x[1], reverse=True)
         # now extract only the dict from each tuple (already ordered)
         return [session_and_count[0] for session_and_count in sorted_tagged]
-            
+
 
 
 
