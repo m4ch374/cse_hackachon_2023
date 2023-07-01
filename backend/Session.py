@@ -1,15 +1,17 @@
 # Session
 
 class Session:
-    def __init__(self, session_id: int, host_id: int, title: str, max_guests: int, start_date: str, end_date: str, tags: list):
+    def __init__(self, session_id: int, host_id: int, title: str, max_guests: int, start: str, end: str, country: str, city: str):
         self.id = session_id
         self.host_id = host_id
         self.title = title
         self.max_guests = max_guests
         self.guest_ids = []
-        self.start_date = start_date
-        self.end_date = end_date
-        self.tags = tags
+        self.start = start
+        self.end = end
+        # self.tags = tags
+        self.country = country
+        self.city = city
 
     def _get_session_id(self) -> int:
         return self.id
@@ -24,13 +26,13 @@ class Session:
         return self.guest_ids
     
     def _get_start_date(self) -> str:
-        return self.start_date
+        return self.start
     
     def _get_end_date(self) -> str:
-        return self.end_date
+        return self.end
     
-    def _get_tags(self) -> list:
-        return self.tags
+    # def _get_tags(self) -> list:
+    #     return self.tags
 
     def _add_guest(self, guest_id: int):
         self.guest_ids.append(guest_id)

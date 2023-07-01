@@ -28,7 +28,8 @@ basic_data_store = {
             'start_date': "05/12/23",
             'return_date': "08/12/23",
             'tags': ["beach house", "beach", "surfing"]
-            'location': "Queensland, Australia",
+            'country': "Australia",
+            'city': "Gold Coast"
         }
     ]
 }
@@ -84,15 +85,19 @@ class Datastore:
         self.__store['users'].append(user)
         return user._get_user_id()
     
-    def register_session(self, session: Session) -> int:
+    def register_session(self, session: Session):
         self.__store['sessions'].append(session)
-        return session._get_session_id()
+        # return session._get_session_id()
     
     def login_user(self, email: str, password: str) -> int:
         for user in self.__store['users']:
             if user._check_email_pass_combo(email, password) is True:
                 return user._get_user_id()
         return -1
+    
+    def get_all_sessions(self) -> list:
+        return [sesh for sesh in self.__store['sessions']]
+
 
 
 print('Loading Datastore...')

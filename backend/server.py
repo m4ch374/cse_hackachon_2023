@@ -84,13 +84,65 @@ def login_user():
 #############################################
 #              CREATE SESSION               #
 #############################################
-@APP.route("/user/create_session", methods=['POST'])
+@APP.route("/session", methods=['POST'])
 def create_session():
-    # data = request.get_json()
-    # email = data['email']
-    # password = data['password']
-    pass
+    # get host's id
+    auth_header = request.headers.get('Authorization')
+    auth_token = auth_header.split(" ")[1]
+    host_id = jwt.decode(auth_token, "deezNuts", "HS256")
+    # get session info
+    data = request.get_json()
+    title = data['title']
+    max_guests = data['max_guests']
+    start = data['start']
+    end = data['end']
+    # tags = data['tags']
+    country = data['country']
+    city = data['city']
+    # now create session
+    data_store.register_session(
+        data_store.get_new_session_id(),
+        host_id,
+        title,
+        max_guests,
+        start,
+        end,
+        country,
+        city
+    )
 
+
+#############################################
+#             LIST ALL SESSIONS             #
+#############################################
+@APP.route("/session", methods=['GET'])
+def list_sessions():
+    # check if user's id exists
+    auth_header = request.headers.get('Authorization')
+    auth_token = auth_header.split(" ")[1]
+    user_id = jwt.decode(auth_token, "deezNuts", "HS256")
+    if data_store.get_user(user_id) is not None:
+        # return all session info (list of dicts)
+        all_sessions = data_store.get_all_sessions()
+        payload = {
+            "allSessions": all_sessions
+        }
+        tok = jwt.encode(payload, "deezNuts", "HS256")
+        return dumps({
+            "token": tok
+        })
+    else:
+        return dumps({ })
+
+
+#############################################
+#          ADD GUEST TO A SESSION           #
+#############################################
+@APP.route("/add", methods=['PUT'])
+def add_guest():
+    # auth_header = request.headers.get('Authorization')
+    # auth_token = auth_header.split(" ")[1]
+    # guest_id = jwt.decode(auth_token, "deezNuts", "HS256")
 
 @APP.route("/user/match_me", methods=['POST'])
 def match_me():
