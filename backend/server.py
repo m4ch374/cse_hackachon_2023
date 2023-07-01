@@ -3,6 +3,8 @@ from flask_cors import CORS
 from json import dumps
 import signal
 import jwt
+import base64
+
 
 from data_store import data_store
 from User import User
@@ -90,7 +92,7 @@ def create_session():
     # get host's id
     auth_header = request.headers.get('Authorization')
     auth_token = auth_header.split(" ")[1]
-    host_id = jwt.decode(auth_token, "deezNuts", "HS256")
+    host_id = jwt.decode(auth_token, "deezNuts", "HS256")['uId']
     # get session info
     data = request.get_json()
     title = data['title']
@@ -126,10 +128,10 @@ def list_sessions():
     # check if user's id exists
     auth_header = request.headers.get('Authorization')
     auth_token = auth_header.split(" ")[1]
-    user_id = jwt.decode(auth_token, "deezNuts", "HS256")
+    user_id = jwt.decode(auth_token, "deezNuts", "HS256")['uId']
     if data_store.get_user(user_id):
         # return all session info (list of dicts)
-        all_sessions = data_store.get_all_sessions()
+        all_sessions = data_store._sessions_to_dict()
         payload = {
             "allSessions": all_sessions
         }
@@ -146,7 +148,7 @@ def add_guest():
     # get the guest's id
     auth_header = request.headers.get('Authorization')
     auth_token = auth_header.split(" ")[1]
-    guest_id = jwt.decode(auth_token, "deezNuts", "HS256")
+    guest_id = jwt.decode(auth_token, "deezNuts", "HS256")['uId']
     # get session id
     data = request.get_json()
     sesh_id = data['session_id']
@@ -161,7 +163,7 @@ def remove_guest():
     # get the guest's id
     auth_header = request.headers.get('Authorization')
     auth_token = auth_header.split(" ")[1]
-    guest_id = jwt.decode(auth_token, "deezNuts", "HS256")
+    guest_id = jwt.decode(auth_token, "deezNuts", "HS256")['uId']
     # get session id
     data = request.get_json()
     sesh_id = data['session_id']
