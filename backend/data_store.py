@@ -98,6 +98,15 @@ class Datastore:
     def get_all_sessions(self) -> list:
         return [sesh for sesh in self.__store['sessions']]
 
+    def add_guest_to_session(self, guest_id: int, session_id: int):
+        for sesh in self.__store['sessions']:
+            if sesh._get_session_id() == session_id:
+                sesh._add_guest(guest_id)
+    
+    def remove_guest_from_session(self, guest_id: int, session_id: int):
+        for sesh in self.__store['sessions']:
+            if sesh._get_session_id() == session_id:
+                sesh._add_guest(guest_id)
 
 
 print('Loading Datastore...')

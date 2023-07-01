@@ -82,7 +82,7 @@ def login_user():
 
 
 #############################################
-#              CREATE SESSION               #
+#             CREATE A SESSION              #
 #############################################
 @APP.route("/session", methods=['POST'])
 def create_session():
@@ -140,22 +140,43 @@ def list_sessions():
 #############################################
 @APP.route("/add", methods=['PUT'])
 def add_guest():
-    # auth_header = request.headers.get('Authorization')
-    # auth_token = auth_header.split(" ")[1]
-    # guest_id = jwt.decode(auth_token, "deezNuts", "HS256")
+    # get the guest's id
+    auth_header = request.headers.get('Authorization')
+    auth_token = auth_header.split(" ")[1]
+    guest_id = jwt.decode(auth_token, "deezNuts", "HS256")
+    # get session id
+    data = request.get_json()
+    sesh_id = data['session_id']
+    data_store.add_guest_to_session(guest_id, sesh_id)
 
-@APP.route("/user/match_me", methods=['POST'])
-def match_me():
-    # dependent on user's pre-selected tags/interests
-    pass
 
-@APP.route("/user/filter_sessions", methods=['POST'])
-def filter_sessions():
-    # independent of user's pre-selected tags/interests
-    pass
+#############################################
+#        REMOVE GUEST FROM A SESSION        #
+#############################################
+@APP.route("/remove", methods=['PUT'])
+def remove_guest():
+    # get the guest's id
+    auth_header = request.headers.get('Authorization')
+    auth_token = auth_header.split(" ")[1]
+    guest_id = jwt.decode(auth_token, "deezNuts", "HS256")
+    # get session id
+    data = request.get_json()
+    sesh_id = data['session_id']
+    data_store.remove_guest_from_session(guest_id, sesh_id)
+
+
+# @APP.route("/user/match_me", methods=['POST'])
+# def match_me():
+#     # dependent on user's pre-selected tags/interests
+#     pass
+
+# @APP.route("/user/filter_sessions", methods=['POST'])
+# def filter_sessions():
+#     # independent of user's pre-selected tags/interests
+#     pass
+
 
 if __name__ == "__main__":
     # helloWorld()
     signal.signal(signal.SIGINT, quit_gracefully) # For coverage
     APP.run(port=8080, debug=False, threaded=True) # Do not edit this port
-

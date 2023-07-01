@@ -36,6 +36,9 @@ class Session:
 
     def _add_guest(self, guest_id: int):
         self.guest_ids.append(guest_id)
+    
+    def _remove_guest(self, guest_id: int):
+        self.guest_ids.remove(guest_id)
 
 
 
