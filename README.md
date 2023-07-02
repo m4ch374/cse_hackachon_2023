@@ -65,4 +65,4 @@ Simultaneously, we are working on the presentation slides and the script. For th
 
 
 #### How to Run:
-Set up two terminals, in one `cd` into `/backend` and `/frontend` in the other. Run `python3 server.py` for the former and `npm install` and `npm run dev` for the latter.
+Set up two terminals, in one `cd` into `/backend` and `/frontend` in the other. Run `python3 server.py` for the former and then `npm install` and `npm run dev` for the latter.

@@ -6,7 +6,7 @@ class User:
         self.username = username
         self.email = email
         self.password = password
-        self.preferred_tags = []
+        self.tags = []
     
     def _get_user_id(self) -> int:
         return self.id
@@ -25,7 +25,14 @@ class User:
             'id': self.id,
             'username': self.username,
             'email': self.email
+            # ,'tags': self.tags
         }
     
     def _check_email_pass_combo(self, email: str, password: str) -> bool:
         return self.email == email and self.password == password
+
+    def _add_to_user_tags(self, a_tag: str):
+        if a_tag not in self.tags:
+            self.tags.append(a_tag) 
+        else:
+            pass
